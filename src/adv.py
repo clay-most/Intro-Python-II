@@ -1,22 +1,23 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
 room = {
-    'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+    'outside':  Room("Outside the Cave Entrance",
+                     "North of them, the cave mouth beckons"),
 
-    'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
+    'foyer':    Room("in the Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
 
-    'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
+    'overlook': Room("at an Grand Overlook", """A steep cliff appears before them, falling
 into the darkness. Ahead to the north, a light flickers in
 the distance, but there is no way across the chasm."""),
 
-    'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
+    'narrow':   Room("in a Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air."""),
 
-    'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
+    'treasure': Room("in the Treasure Chamber", """They've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
@@ -39,8 +40,14 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
+print(f"\nTo travel North enter n, to travel East enter e, ect.\n")
+playerName = input("Welcome, traveler.\nPlease enter your name\n")
+player = Player(playerName, room["outside"])
+print(f"\nGood Luck, {player.name}\n{player.name} looks around. {player.location}\n")
+
+
 # Write a loop that:
-#
+
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
@@ -49,3 +56,14 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+while True:
+    command= input(f"Which direction will {player.name} go?\n").lower()
+    if command in ["n","s","e","w"]:
+        player.travel(command)
+        print(f"\n{player.name} looks around. {player.location}\n")
+    elif command == "q":
+        print("Good bye, traveler")
+        quit()
+    else:
+        print("valid commands are n, s, e, w, q.")
