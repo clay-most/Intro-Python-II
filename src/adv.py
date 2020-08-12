@@ -38,9 +38,9 @@ room['treasure'].s_to = room['narrow']
 # Main
 #
 
-# Make a new player object that is currently in the 'outside' room.
-
 print(f"\nTo travel North enter n, to travel East enter e, ect.\n")
+
+# Make a new player object that is currently in the 'outside' room.
 playerName = input("Welcome, traveler.\nPlease enter your name\n")
 player = Player(playerName, room["outside"])
 print(f"\nGood Luck, {player.name}\n{player.name} looks around. {player.location}\n")
