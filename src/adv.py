@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from item import Item
 
 # Declare all the rooms
 
@@ -22,6 +23,14 @@ chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
 
+#Create items
+
+item = {
+    "ring":Item("ring","magic ring"),
+    "carrot":Item("carrot","normal carrot"),
+    "sword": Item("sword","rusty sword"),
+    "rope": Item("rope","frayed rope"),
+}
 
 # Link rooms together
 
@@ -33,6 +42,11 @@ room['overlook'].s_to = room['foyer']
 room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
+
+
+#Add items to rooms
+
+room["treasure"].items.append(item["ring"].name)
 
 #
 # Main
@@ -62,6 +76,14 @@ while True:
     if command in ["n","s","e","w"]:
         player.travel(command)
         print(f"\n{player.name} looks around. {player.location}\n")
+    elif "get" in command:
+        if command[4:] in room[f"{player.location}"].items
+        player.get(command[4:])
+    elif "drop" in command:
+        if command[5:] in player.inventory:
+            player.drop(command[5:])
+        else:
+            print(f"That item is not in {player.name}'s pack.")
     elif command == "q":
         print("Good bye, traveler")
         quit()
