@@ -46,7 +46,7 @@ room['treasure'].s_to = room['narrow']
 
 #Add items to rooms
 
-room["treasure"].items.append(item["ring"].name)
+room["foyer"].items.append(item["ring"])
 
 #
 # Main
@@ -72,13 +72,22 @@ print(f"\nGood Luck, {player.name}\n{player.name} looks around. {player.location
 # If the user enters "q", quit the game.
 
 while True:
-    command= input(f"Which direction will {player.name} go?\n").lower()
+    command= input(f"What will {player.name} do?\n").lower()
     if command in ["n","s","e","w"]:
         player.travel(command)
         print(f"\n{player.name} looks around. {player.location}\n")
+        if len(player.location.items)>0:
+            print (f"In this room there is a...") 
+            for item in player.location.items: 
+                print (f"{item.name} ({item.description}).\nTo pick up type (get {item.name})")
     elif "get" in command:
-        if command[4:] in room[f"{player.location}"].items
-        player.get(command[4:])
+        checkItem = player.location.get_item(command[4:])
+        if checkItem:
+            checkItem.on_take(player)
+            player.get(checkItem)
+            player.location.items.remove(checkItem)
+        else:
+             print (f"{command[4:]} is not in this room")
     elif "drop" in command:
         if command[5:] in player.inventory:
             player.drop(command[5:])
